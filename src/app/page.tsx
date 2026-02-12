@@ -14,6 +14,8 @@ import {
   UtensilsCrossed,
   ShoppingBag,
 } from "lucide-react";
+import Image from "next/image";
+import frontviewImg from "../assests/frontview.png";
 
 /* ─── Data ─── */
 const menuCategories = [
@@ -114,9 +116,8 @@ function SectionHeading({ title, subtitle, light = false }: { title: string; sub
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className={`font-[family-name:var(--font-rozha)] text-4xl md:text-5xl lg:text-6xl mb-4 ${
-          light ? "text-cream" : "text-teal-dark"
-        }`}
+        className={`font-[family-name:var(--font-rozha)] text-4xl md:text-5xl lg:text-6xl mb-4 ${light ? "text-cream" : "text-teal-dark"
+          }`}
       >
         {title}
       </motion.h2>
@@ -216,107 +217,122 @@ function Navbar() {
 /* ─── Hero ─── */
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-teal-dark texture-plaster">
-      {/* Parallax background pattern */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 opacity-10"
-      >
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #d4a017 1px, transparent 1px), radial-gradient(circle at 75% 75%, #d4a017 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }} />
-      </motion.div>
+    <section
+      ref={ref}
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+    >
+      {/* Background Image with improved depth */}
+      <div className="absolute inset-0 -z-20">
+        <Image
+          src={frontviewImg}
+          alt="Restaurant Front View"
+          fill
+          className="object-cover"
+          priority
+          placeholder="blur"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />
+      </div>
 
-      {/* Arch frame with food visual */}
-      <div className="relative z-10 flex flex-col items-center text-center px-4 pt-20 md:pt-0">
-        {/* Decorative arch */}
+      {/* Content */}
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+
+        {/* Decorative accent line */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative mb-8"
-        >
-          <div className="w-64 h-80 md:w-80 md:h-96 arch-clip bg-gradient-to-b from-mustard/30 to-rust/20 p-1">
-            <div className="w-full h-full arch-clip bg-gradient-to-b from-amber-700 via-orange-600 to-yellow-700 flex items-center justify-center relative overflow-hidden">
-              {/* Food visual placeholder with warm glow */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-40 h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-yellow-500 via-amber-600 to-orange-700 shadow-2xl flex items-center justify-center">
-                  <div className="w-36 h-36 md:w-44 md:h-44 rounded-full border-2 border-brass-light/50 flex items-center justify-center">
-                    <span className="font-[family-name:var(--font-rozha)] text-cream text-3xl md:text-4xl text-center leading-tight">
-                      Punjab<br />di Feel
-                    </span>
-                  </div>
-                </div>
-              </div>
-              {/* Warm glow */}
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-60 h-20 bg-mustard/30 blur-3xl rounded-full" />
-            </div>
-          </div>
-        </motion.div>
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="w-16 h-[3px] bg-[#e11d48] mx-auto mb-8 origin-center rounded-full"
+        />
 
-        {/* Headline */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-        >
-          <h1 className="font-[family-name:var(--font-rozha)] text-5xl md:text-7xl lg:text-8xl text-cream mb-4">
-            <span className="text-rust-light">Punjab di Feel,</span>
-            <br />
-            <span className="text-mustard">Har Meal</span>
-          </h1>
-        </motion.div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="text-cream/80 text-lg md:text-xl max-w-md mb-8"
-        >
-          Authentic North Indian flavors, served with nostalgia.
-        </motion.p>
-
-        {/* CTA Buttons */}
+        {/* Tagline - Pill Design for Hierarchy */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="flex flex-col sm:flex-row gap-4"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="inline-block mb-8"
+        >
+          <span className="px-5 py-2 rounded-full bg-white/60 backdrop-blur-md border border-[#b45309]/20 text-[#b45309] tracking-[0.2em] uppercase text-xs md:text-sm font-bold shadow-sm">
+            Punjab di Feel, Har Meal
+          </span>
+        </motion.div>
+
+        {/* Heading — staggered reveal with better mobile sizing */}
+        <div className="overflow-hidden mb-2 pt-2">
+          <motion.h1
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="font-[family-name:var(--font-rozha)] text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] text-[#2d2d2d] leading-[0.85] tracking-tight drop-shadow-sm"
+          >
+            Chature
+          </motion.h1>
+        </div>
+        <div className="overflow-hidden mb-8">
+          <motion.h1
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.8, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="font-[family-name:var(--font-rozha)] text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] text-[#e11d48] leading-[0.85] tracking-tight drop-shadow-sm"
+          >
+            Bhature
+          </motion.h1>
+        </div>
+
+        {/* Subtitle with better contrast */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="text-[#52525b] text-base md:text-xl max-w-xl mx-auto leading-relaxed mb-12 font-medium"
+        >
+          Authentic North Indian flavours crafted with love,{" "}
+          <span className="text-[#2d2d2d] font-bold">served with a twist of chatur-ness.</span>
+        </motion.p>
+
+        {/* CTA Buttons - High Conversion Colors */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-5"
         >
           <a
             href="#menu"
-            className="gold-shimmer text-teal-dark px-8 py-3.5 rounded-full font-semibold text-lg hover:scale-105 transition-transform inline-flex items-center gap-2"
+            className="group relative px-9 py-4 bg-[#e11d48] text-white rounded-full text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:bg-[#be123c] hover:shadow-xl hover:shadow-[#e11d48]/30 hover:-translate-y-1 inline-flex items-center gap-2"
           >
-            <UtensilsCrossed size={20} />
-            View Menu
+            <UtensilsCrossed size={18} className="group-hover:rotate-12 transition-transform" />
+            Explore Menu
           </a>
           <a
             href="#contact"
-            className="border-2 border-cream/40 text-cream px-8 py-3.5 rounded-full font-semibold text-lg hover:bg-cream/10 transition-colors inline-flex items-center gap-2"
+            className="px-9 py-4 bg-white/50 backdrop-blur-sm border-2 border-[#2d2d2d]/10 text-[#2d2d2d] rounded-full text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:border-[#2d2d2d] hover:bg-white hover:shadow-lg hover:-translate-y-1 inline-flex items-center gap-2"
           >
-            <ShoppingBag size={20} />
+            <ShoppingBag size={18} />
             Order Online
           </a>
         </motion.div>
-
-        {/* Logo stamp */}
-        <motion.div
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 1.2, type: "spring", stiffness: 100 }}
-          className="mt-12 w-20 h-20 rounded-full border-2 border-brass bg-teal-dark flex items-center justify-center float-badge"
-        >
-          <span className="font-[family-name:var(--font-rozha)] text-mustard text-2xl">CB</span>
-        </motion.div>
       </div>
 
-      {/* Scalloped bottom */}
+      {/* Scroll indicator with higher contrast */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20"
+      >
+        <span className="text-[10px] tracking-[0.25em] uppercase text-[#2d2d2d]/60 font-bold">Scroll</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-[2px] h-10 bg-gradient-to-b from-[#e11d48] to-transparent rounded-full"
+        />
+      </motion.div>
+
+      {/* Bottom wave transition */}
       <div className="absolute bottom-0 left-0 right-0 text-cream">
         <svg viewBox="0 0 1200 40" className="w-full" preserveAspectRatio="none">
           <path
@@ -425,11 +441,10 @@ function MenuSection() {
             <button
               key={cat.name}
               onClick={() => setActiveCategory(i)}
-              className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${
-                activeCategory === i
-                  ? "bg-mustard text-teal-dark"
-                  : "border border-cream/30 text-cream/70 hover:text-mustard hover:border-mustard/50"
-              }`}
+              className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all ${activeCategory === i
+                ? "bg-mustard text-teal-dark"
+                : "border border-cream/30 text-cream/70 hover:text-mustard hover:border-mustard/50"
+                }`}
             >
               {cat.name}
             </button>
@@ -454,14 +469,12 @@ function MenuSection() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span
-                      className={`w-3 h-3 rounded-sm border-2 ${
-                        item.veg ? "border-green-500" : "border-red-500"
-                      }`}
+                      className={`w-3 h-3 rounded-sm border-2 ${item.veg ? "border-green-500" : "border-red-500"
+                        }`}
                     >
                       <span
-                        className={`block w-1.5 h-1.5 rounded-full m-[1px] ${
-                          item.veg ? "bg-green-500" : "bg-red-500"
-                        }`}
+                        className={`block w-1.5 h-1.5 rounded-full m-[1px] ${item.veg ? "bg-green-500" : "bg-red-500"
+                          }`}
                       />
                     </span>
                     <h3 className="text-cream font-semibold text-lg group-hover:text-mustard transition-colors">
@@ -801,50 +814,7 @@ function FooterSection() {
   );
 }
 
-/* ─── Mobile Bottom Bar ─── */
-function MobileBottomBar() {
-  return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-teal-dark/95 backdrop-blur-md border-t border-brass/20">
-      <div className="flex items-center justify-around py-3 px-4">
-        <a
-          href="#menu"
-          className="flex flex-col items-center gap-1 text-cream/80 hover:text-mustard transition-colors"
-        >
-          <UtensilsCrossed size={20} />
-          <span className="text-xs font-medium">Menu</span>
-        </a>
-        <a
-          href="tel:+919876543210"
-          className="flex flex-col items-center gap-1 text-cream/80 hover:text-mustard transition-colors"
-        >
-          <Phone size={20} />
-          <span className="text-xs font-medium">Call</span>
-        </a>
-        <a
-          href="#contact"
-          className="flex items-center gap-2 bg-mustard text-teal-dark px-6 py-2.5 rounded-full font-semibold text-sm"
-        >
-          <ShoppingBag size={16} />
-          Order
-        </a>
-        <a
-          href="#contact"
-          className="flex flex-col items-center gap-1 text-cream/80 hover:text-mustard transition-colors"
-        >
-          <MapPin size={20} />
-          <span className="text-xs font-medium">Visit</span>
-        </a>
-        <a
-          href="#contact"
-          className="flex flex-col items-center gap-1 text-cream/80 hover:text-mustard transition-colors"
-        >
-          <Clock size={20} />
-          <span className="text-xs font-medium">Hours</span>
-        </a>
-      </div>
-    </div>
-  );
-}
+
 
 /* ─── Main Page ─── */
 export default function Home() {
@@ -860,7 +830,6 @@ export default function Home() {
         <TestimonialsSection />
       </main>
       <FooterSection />
-      <MobileBottomBar />
     </>
   );
 }

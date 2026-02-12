@@ -66,13 +66,95 @@ const specials = [
 ];
 
 const galleryImages = [
-  { alt: "Chole Bhature", color: "from-amber-700 to-yellow-600" },
-  { alt: "Butter Chicken", color: "from-red-700 to-orange-500" },
-  { alt: "Kadhi Chawal", color: "from-yellow-600 to-amber-500" },
-  { alt: "Tandoori Platter", color: "from-red-800 to-red-500" },
-  { alt: "Brass Thali", color: "from-amber-600 to-yellow-400" },
-  { alt: "Gulab Jamun", color: "from-rose-700 to-pink-500" },
+  {
+    src: "https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=2070&auto=format&fit=crop",
+    alt: "Chole Bhature Feast",
+    span: "col-span-1 md:col-span-2 md:row-span-2",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop",
+    alt: "Restaurant Ambience",
+    span: "col-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1585937421612-70a008356f36?q=80&w=2070&auto=format&fit=crop",
+    alt: "Spices & Ingredients",
+    span: "col-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=2070&auto=format&fit=crop",
+    alt: "Tandoori Delights",
+    span: "col-span-1 md:col-span-1 md:row-span-2",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=1971&auto=format&fit=crop",
+    alt: "Rich Curries",
+    span: "col-span-1 md:col-span-1 md:row-span-1",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?q=80&w=2017&auto=format&fit=crop",
+    alt: "Sweet Endings",
+    span: "col-span-1 md:col-span-2 md:row-span-1",
+  },
 ];
+
+/* ─── Gallery ─── */
+function GallerySection() {
+  return (
+    <section id="gallery" className="py-20 md:py-28 bg-teal-dark texture-plaster relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 text-teal-dark -translate-y-[1px]">
+        <svg viewBox="0 0 1200 40" className="w-full rotate-180" preserveAspectRatio="none">
+          <path
+            d="M0,40 L0,20 Q30,0 60,20 Q90,40 120,20 Q150,0 180,20 Q210,40 240,20 Q270,0 300,20 Q330,40 360,20 Q390,0 420,20 Q450,40 480,20 Q510,0 540,20 Q570,40 600,20 Q630,0 660,20 Q690,40 720,20 Q750,0 780,20 Q810,40 840,20 Q870,0 900,20 Q930,40 960,20 Q990,0 1020,20 Q1050,40 1080,20 Q1110,0 1140,20 Q1170,40 1200,20 L1200,40 Z"
+            fill="#1a5c5a"
+          />
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <SectionHeading title="The Feast Gallery" subtitle="A glimpse through our Jharokha" light />
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[150px] md:auto-rows-[250px]">
+          {galleryImages.map((img, i) => (
+            <motion.div
+              key={i}
+              className={`relative group rounded-3xl overflow-hidden cursor-pointer ${img.span}`}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              whileHover={{ scale: 0.98 }}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 768px) 50vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                <p className="text-mustard font-[family-name:var(--font-rozha)] text-xl translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  {img.alt}
+                </p>
+                <div className="w-12 h-1 bg-mustard mt-2 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom scallop */}
+      <div className="absolute bottom-0 left-0 right-0 text-cream">
+        <svg viewBox="0 0 1200 40" className="w-full" preserveAspectRatio="none">
+          <path
+            d="M0,40 L0,20 Q30,0 60,20 Q90,40 120,20 Q150,0 180,20 Q210,40 240,20 Q270,0 300,20 Q330,40 360,20 Q390,0 420,20 Q450,40 480,20 Q510,0 540,20 Q570,40 600,20 Q630,0 660,20 Q690,40 720,20 Q750,0 780,20 Q810,40 840,20 Q870,0 900,20 Q930,40 960,20 Q990,0 1020,20 Q1050,40 1080,20 Q1110,0 1140,20 Q1170,40 1200,20 L1200,40 Z"
+            fill="#fdf6e3"
+          />
+        </svg>
+      </div>
+    </section>
+  );
+}
 
 const testimonials = [
   { name: "Priya S.", text: "Best Chole Bhature outside of Chandni Chowk! The flavors took me right back to my Nani's kitchen.", rating: 5 },
@@ -140,26 +222,62 @@ function SectionHeading({ title, subtitle, light = false }: { title: string; sub
 }
 
 /* ─── Navbar ─── */
+import logoImg from "../assests/chaturebhaturetext.png";
+
 function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Split links for desktop layout
+  const leftLinks = ["About", "Menu", "Specials"];
+  const rightLinks = ["Gallery", "Reviews"];
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-teal-dark/95 backdrop-blur-md border-b border-brass/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-mustard flex items-center justify-center float-badge">
-              <span className="font-[family-name:var(--font-rozha)] text-teal-dark text-lg md:text-xl">CB</span>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-teal-dark/95 backdrop-blur-md border-b border-brass/20 h-20 md:h-24 transition-all">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex items-center justify-between h-full relative">
+
+          {/* Mobile Toggle (Left on mobile) */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden text-cream p-2 z-50"
+            aria-label="Toggle menu"
+          >
+            <div className="w-6 flex flex-col gap-1.5">
+              <span className={`block h-0.5 bg-cream transition-transform ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+              <span className={`block h-0.5 bg-cream transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
+              <span className={`block h-0.5 bg-cream transition-transform ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
             </div>
-            <span className="font-[family-name:var(--font-rozha)] text-cream text-lg md:text-xl hidden sm:block">
-              Chature Bhature
-            </span>
+          </button>
+
+          {/* Left Menu Items (Desktop) */}
+          <div className="hidden md:flex items-center gap-8 flex-1 justify-end pr-12">
+            {leftLinks.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-cream/80 hover:text-mustard transition-colors text-sm font-medium tracking-wide uppercase"
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+
+          {/* Center Logo */}
+          <a href="#" className="flex-shrink-0 relative z-10 transform hover:scale-105 transition-transform duration-300">
+            <div className="relative w-44 md:w-64 h-14 md:h-20">
+              <Image
+                src={logoImg}
+                alt="Chature Bhature"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
           </a>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
-            {["About", "Menu", "Specials", "Gallery", "Reviews"].map((item) => (
+          {/* Right Menu Items (Desktop) */}
+          <div className="hidden md:flex items-center gap-8 flex-1 justify-start pl-12">
+            {rightLinks.map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
@@ -172,22 +290,12 @@ function Navbar() {
               href="#contact"
               className="bg-mustard text-teal-dark px-5 py-2 rounded-full font-semibold text-sm hover:bg-mustard-light transition-colors"
             >
-              Reserve a Table
+              Reserve
             </a>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-cream p-2"
-            aria-label="Toggle menu"
-          >
-            <div className="w-6 flex flex-col gap-1.5">
-              <span className={`block h-0.5 bg-cream transition-transform ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block h-0.5 bg-cream transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
-              <span className={`block h-0.5 bg-cream transition-transform ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-            </div>
-          </button>
+          {/* Empty spacer for mobile balance */}
+          <div className="w-10 md:hidden"></div>
         </div>
 
         {/* Mobile menu */}
@@ -195,14 +303,14 @@ function Navbar() {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            className="md:hidden pb-4"
+            className="md:hidden absolute top-full left-0 right-0 bg-teal-dark/95 backdrop-blur-md border-b border-brass/20"
           >
-            {["About", "Menu", "Specials", "Gallery", "Reviews", "Contact"].map((item) => (
+            {[...leftLinks, ...rightLinks, "Contact"].map((item) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase()}`}
                 onClick={() => setMobileOpen(false)}
-                className="block py-3 text-cream/80 hover:text-mustard transition-colors text-sm font-medium tracking-wide uppercase border-b border-cream/10"
+                className="block py-4 px-6 text-cream/80 hover:text-mustard transition-colors text-sm font-medium tracking-wide uppercase border-b border-cream/10 text-center"
               >
                 {item}
               </a>
@@ -217,14 +325,20 @@ function Navbar() {
 /* ─── Hero ─── */
 function HeroSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32"
     >
       {/* Background Image with improved depth */}
-      <div className="absolute inset-0 -z-20">
+      <motion.div style={{ y: backgroundY }} className="absolute inset-0 -z-20 h-[120%] -top-[10%]">
         <Image
           src={frontviewImg}
           alt="Restaurant Front View"
@@ -233,9 +347,8 @@ function HeroSection() {
           priority
           placeholder="blur"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />
-      </div>
+        {/* Overlays removed for full visibility */}
+      </motion.div>
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
@@ -245,7 +358,7 @@ function HeroSection() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-16 h-[3px] bg-[#e11d48] mx-auto mb-8 origin-center rounded-full"
+          className="w-16 h-[3px] bg-[#e11d48] mx-auto mb-6 origin-center rounded-full"
         />
 
         {/* Tagline - Pill Design for Hierarchy */}
@@ -253,32 +366,34 @@ function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="inline-block mb-8"
+          className="inline-block mb-6"
         >
-          <span className="px-5 py-2 rounded-full bg-white/60 backdrop-blur-md border border-[#b45309]/20 text-[#b45309] tracking-[0.2em] uppercase text-xs md:text-sm font-bold shadow-sm">
+          <span className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-[#b45309]/20 text-[#b45309] tracking-[0.2em] uppercase text-xs md:text-sm font-bold shadow-sm">
             Punjab di Feel, Har Meal
           </span>
         </motion.div>
 
         {/* Heading — staggered reveal with better mobile sizing */}
-        <div className="overflow-hidden mb-2 pt-2">
+        <div className="overflow-hidden mb-1 pt-2">
           <motion.h1
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-[family-name:var(--font-rozha)] text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] text-[#2d2d2d] leading-[0.85] tracking-tight drop-shadow-sm"
+            style={{ WebkitTextStroke: "2px #ea580c" }}
+            className="font-[family-name:var(--font-rozha)] text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-[#fed7aa] leading-[0.9] tracking-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
           >
-            Chature
+            CHATURE
           </motion.h1>
         </div>
-        <div className="overflow-hidden mb-8">
+        <div className="overflow-hidden mb-6">
           <motion.h1
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 0.8, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="font-[family-name:var(--font-rozha)] text-6xl sm:text-7xl md:text-8xl lg:text-[9rem] text-[#e11d48] leading-[0.85] tracking-tight drop-shadow-sm"
+            style={{ WebkitTextStroke: "2px #ea580c" }}
+            className="font-[family-name:var(--font-rozha)] text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-[#fed7aa] leading-[0.9] tracking-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
           >
-            Bhature
+            BHATURE
           </motion.h1>
         </div>
 
@@ -287,10 +402,10 @@ function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 1 }}
-          className="text-[#52525b] text-base md:text-xl max-w-xl mx-auto leading-relaxed mb-12 font-medium"
+          className="text-white text-base md:text-xl max-w-xl mx-auto leading-relaxed mb-12 font-medium drop-shadow-md"
         >
           Authentic North Indian flavours crafted with love,{" "}
-          <span className="text-[#2d2d2d] font-bold">served with a twist of chatur-ness.</span>
+          <span className="font-bold">served with a twist of chatur-ness.</span>
         </motion.p>
 
         {/* CTA Buttons - High Conversion Colors */}
@@ -455,8 +570,9 @@ function MenuSection() {
         <motion.div
           key={activeCategory}
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
           className="grid md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto"
         >
           {menuCategories[activeCategory].items.map((item) => (
@@ -592,9 +708,7 @@ function SpecialsSection() {
                       <span className="font-[family-name:var(--font-rozha)] text-mustard text-2xl">
                         {item.price}
                       </span>
-                      <button className="bg-mustard/20 text-mustard px-4 py-1.5 rounded-full text-sm font-medium hover:bg-mustard hover:text-teal-dark transition-colors">
-                        Add to Cart
-                      </button>
+
                     </div>
                   </div>
                 </div>
@@ -607,60 +721,7 @@ function SpecialsSection() {
   );
 }
 
-/* ─── Gallery ─── */
-function GallerySection() {
-  return (
-    <section id="gallery" className="py-20 md:py-28 bg-teal-dark texture-plaster relative">
-      <div className="absolute top-0 left-0 right-0 text-teal-dark -translate-y-[1px]">
-        <svg viewBox="0 0 1200 40" className="w-full rotate-180" preserveAspectRatio="none">
-          <path
-            d="M0,40 L0,20 Q30,0 60,20 Q90,40 120,20 Q150,0 180,20 Q210,40 240,20 Q270,0 300,20 Q330,40 360,20 Q390,0 420,20 Q450,40 480,20 Q510,0 540,20 Q570,40 600,20 Q630,0 660,20 Q690,40 720,20 Q750,0 780,20 Q810,40 840,20 Q870,0 900,20 Q930,40 960,20 Q990,0 1020,20 Q1050,40 1080,20 Q1110,0 1140,20 Q1170,40 1200,20 L1200,40 Z"
-            fill="#1a5c5a"
-          />
-        </svg>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <SectionHeading title="The Feast Gallery" subtitle="A glimpse through our Jharokha" light />
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {galleryImages.map((img, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              whileHover={{ scale: 1.05 }}
-              className={`${i === 0 || i === 5 ? "row-span-2" : ""}`}
-            >
-              <ArchFrame className={`w-full ${i === 0 || i === 5 ? "h-80 md:h-[28rem]" : "h-40 md:h-52"}`}>
-                <div className={`w-full h-full bg-gradient-to-br ${img.color} flex items-end justify-center relative group cursor-pointer`}>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                  {/* Warm glow effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(circle_at_center,rgba(212,160,23,0.2),transparent_70%)]" />
-                  <span className="text-cream/90 font-medium text-sm pb-4 relative z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                    {img.alt}
-                  </span>
-                </div>
-              </ArchFrame>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom scallop */}
-      <div className="absolute bottom-0 left-0 right-0 text-cream">
-        <svg viewBox="0 0 1200 40" className="w-full" preserveAspectRatio="none">
-          <path
-            d="M0,40 L0,20 Q30,0 60,20 Q90,40 120,20 Q150,0 180,20 Q210,40 240,20 Q270,0 300,20 Q330,40 360,20 Q390,0 420,20 Q450,40 480,20 Q510,0 540,20 Q570,40 600,20 Q630,0 660,20 Q690,40 720,20 Q750,0 780,20 Q810,40 840,20 Q870,0 900,20 Q930,40 960,20 Q990,0 1020,20 Q1050,40 1080,20 Q1110,0 1140,20 Q1170,40 1200,20 L1200,40 Z"
-            fill="#fdf6e3"
-          />
-        </svg>
-      </div>
-    </section>
-  );
-}
 
 /* ─── Testimonials ─── */
 function TestimonialsSection() {

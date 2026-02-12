@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Rozha_One } from "next/font/google";
 import "./globals.css";
 import { VisualEditsMessenger } from "orchids-visual-edits";
+import SmoothScrolling from "../components/SmoothScrolling";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -31,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${rozha.variable} antialiased font-[family-name:var(--font-poppins)]`}
       >
-        {children}
+        <SmoothScrolling>{children}</SmoothScrolling>
         <VisualEditsMessenger />
       </body>
     </html>

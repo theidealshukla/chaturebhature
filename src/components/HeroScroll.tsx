@@ -1,26 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { UtensilsCrossed, ShoppingBag } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger);
-}
+import frontview from "@/assests/frontview.png";
 
 /* ═══════════════════════════════════════════════
    CONFIGURATION
    ═══════════════════════════════════════════════ */
-const TOTAL_FRAMES = 205;
-const DESKTOP_PATH = "/images/desktop/";
 const MOBILE_VIDEO = "/images/mobile/bhature portrait.mp4";
 const MOBILE_BREAKPOINT = 768;
-
-function getFrameSrc(basePath: string, index: number): string {
-    return `${basePath}ezgif-frame-${String(index + 1).padStart(3, "0")}.jpg`;
-}
 
 /* ═══════════════════════════════════════════════
    SHARED TYPOGRAPHY OVERLAY
@@ -225,206 +214,25 @@ function MobileHero() {
 }
 
 /* ═══════════════════════════════════════════════
-   DESKTOP HERO — Scroll-controlled canvas, 500vh
+   DESKTOP HERO — Static frontview image
    ═══════════════════════════════════════════════ */
 function DesktopHero() {
-    const sectionRef = useRef<HTMLDivElement>(null);
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
-    const framesRef = useRef<HTMLImageElement[]>([]);
-    const currentFrameRef = useRef<number>(0);
-    const rafIdRef = useRef<number>(0);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [loadProgress, setLoadProgress] = useState(0);
-
-    const renderFrame = useCallback((index: number) => {
-        const ctx = ctxRef.current;
-        const canvas = canvasRef.current;
-        if (!ctx || !canvas) return;
-
-        const frame = framesRef.current[index];
-        if (!frame || !frame.complete || !frame.naturalWidth) return;
-
-        const vw = canvas.clientWidth || window.innerWidth;
-        const vh = canvas.clientHeight || window.innerHeight;
-
-        const imgW = frame.naturalWidth;
-        const imgH = frame.naturalHeight;
-        const scale = Math.max(vw / imgW, vh / imgH);
-        const drawW = imgW * scale;
-        const drawH = imgH * scale;
-        const drawX = (vw - drawW) / 2;
-        const drawY = (vh - drawH) / 2;
-
-        ctx.drawImage(frame, drawX, drawY, drawW, drawH);
-    }, []);
-
-    const resizeCanvas = useCallback(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-        canvas.style.width = `${w}px`;
-        canvas.style.height = `${h}px`;
-
-        const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
-        if (ctx) {
-            ctx.scale(dpr, dpr);
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = "high";
-            ctxRef.current = ctx;
-        }
-
-        if (framesRef.current.length > 0) {
-            renderFrame(currentFrameRef.current);
-        }
-    }, [renderFrame]);
-
-    useEffect(() => {
-        const section = sectionRef.current;
-        const canvas = canvasRef.current;
-        if (!section || !canvas) return;
-
-        // Acquire initial context
-        const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
-        if (ctx) {
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = "high";
-            ctxRef.current = ctx;
-        }
-
-        resizeCanvas();
-
-        // Preload frames
-        const frames: HTMLImageElement[] = [];
-        let loaded = 0;
-        let lastPct = 0;
-
-        const onReady = () => {
-            loaded++;
-            const pct = Math.round((loaded / TOTAL_FRAMES) * 100);
-            if (pct >= lastPct + 5 || loaded >= TOTAL_FRAMES) {
-                lastPct = pct;
-                setLoadProgress(pct);
-            }
-            if (loaded >= TOTAL_FRAMES) {
-                framesRef.current = frames;
-                setIsLoaded(true);
-                renderFrame(0);
-            }
-        };
-
-        for (let i = 0; i < TOTAL_FRAMES; i++) {
-            const img = new Image();
-            img.decoding = "async";
-            img.src = getFrameSrc(DESKTOP_PATH, i);
-            img.onload = onReady;
-            img.onerror = onReady;
-            frames.push(img);
-        }
-
-        // GSAP ScrollTrigger
-        const proxy = { frame: 0 };
-        gsap.to(proxy, {
-            frame: TOTAL_FRAMES - 1,
-            snap: "frame",
-            ease: "none",
-            scrollTrigger: {
-                trigger: section,
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 0.15,
-            },
-            onUpdate: () => {
-                const next = Math.round(proxy.frame);
-                if (next !== currentFrameRef.current) {
-                    currentFrameRef.current = next;
-                    cancelAnimationFrame(rafIdRef.current);
-                    rafIdRef.current = requestAnimationFrame(() => renderFrame(next));
-                }
-            },
-        });
-
-        // Resize handler
-        let timer: ReturnType<typeof setTimeout>;
-        const onResize = () => {
-            clearTimeout(timer);
-            timer = setTimeout(resizeCanvas, 150);
-        };
-        window.addEventListener("resize", onResize);
-
-        return () => {
-            window.removeEventListener("resize", onResize);
-            cancelAnimationFrame(rafIdRef.current);
-            clearTimeout(timer);
-            ScrollTrigger.getAll().forEach((t) => t.kill());
-        };
-    }, [renderFrame, resizeCanvas]);
-
     return (
-        <section
-            ref={sectionRef}
-            className="relative bg-teal-dark"
-            style={{ height: "500vh" }}
-        >
-            <div className="sticky top-0 h-screen w-full overflow-hidden">
-                {/* Loading overlay */}
-                {!isLoaded && (
-                    <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-teal-dark">
-                        <div className="w-20 h-20 rounded-full bg-mustard/10 border-2 border-brass/30 flex items-center justify-center mb-8 animate-pulse">
-                            <span className="font-[family-name:var(--font-rozha)] text-mustard text-2xl">
-                                CB
-                            </span>
-                        </div>
-                        <div className="w-56 h-[3px] bg-cream/10 rounded-full overflow-hidden mb-3">
-                            <div
-                                className="h-full bg-gradient-to-r from-brass via-mustard to-brass-light rounded-full transition-all duration-500 ease-out"
-                                style={{ width: `${loadProgress}%` }}
-                            />
-                        </div>
-                        <p className="text-cream/40 text-[11px] tracking-[0.2em] uppercase font-medium">
-                            Loading experience… {loadProgress}%
-                        </p>
-                    </div>
-                )}
+        <section className="relative h-screen bg-teal-dark overflow-hidden">
+            {/* Background image — covers entire viewport */}
+            <img
+                src={frontview.src}
+                alt="Chature Bhature"
+                className="absolute inset-0 w-full h-full object-cover"
+            />
 
-                {/* Canvas */}
-                <canvas
-                    ref={canvasRef}
-                    className="absolute inset-0"
-                    style={{
-                        opacity: isLoaded ? 1 : 0,
-                        transition: "opacity 0.6s ease",
-                        willChange: "transform",
-                        contain: "strict",
-                    }}
-                />
+            {/* Typography overlay */}
+            <HeroTypography />
 
-                {/* Typography overlay (only show after loaded) */}
-                <div
-                    style={{
-                        opacity: isLoaded ? 1 : 0,
-                        transition: "opacity 0.6s ease 0.4s",
-                    }}
-                >
-                    <HeroTypography />
-                </div>
+            {/* Cinematic overlays */}
+            <CinematicOverlays />
 
-                {/* Cinematic overlays */}
-                <div
-                    style={{
-                        opacity: isLoaded ? 1 : 0,
-                        transition: "opacity 0.8s ease 0.3s",
-                    }}
-                >
-                    <CinematicOverlays />
-                </div>
-            </div>
-
+            {/* Scalloped bottom edge */}
             <ScallopedEdge />
         </section>
     );

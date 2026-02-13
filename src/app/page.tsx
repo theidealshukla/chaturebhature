@@ -15,7 +15,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import Image from "next/image";
-import frontviewImg from "../assests/frontview.png";
+import HeroScroll from "@/components/HeroScroll";
 
 /* ─── Data ─── */
 const menuCategories = [
@@ -322,143 +322,7 @@ function Navbar() {
   );
 }
 
-/* ─── Hero ─── */
-function HeroSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  return (
-    <section
-      ref={ref}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32"
-    >
-      {/* Background Image with improved depth */}
-      <motion.div style={{ y: backgroundY }} className="absolute inset-0 -z-20 h-[120%] -top-[10%]">
-        <Image
-          src={frontviewImg}
-          alt="Restaurant Front View"
-          fill
-          className="object-cover"
-          priority
-          placeholder="blur"
-        />
-        {/* Overlays removed for full visibility */}
-      </motion.div>
-
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-
-        {/* Decorative accent line */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-16 h-[3px] bg-[#e11d48] mx-auto mb-6 origin-center rounded-full"
-        />
-
-        {/* Tagline - Pill Design for Hierarchy */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="inline-block mb-6"
-        >
-          <span className="px-5 py-2 rounded-full bg-white/70 backdrop-blur-md border border-[#b45309]/20 text-[#b45309] tracking-[0.2em] uppercase text-xs md:text-sm font-bold shadow-sm">
-            Punjab di Feel, Har Meal
-          </span>
-        </motion.div>
-
-        {/* Heading — staggered reveal with better mobile sizing */}
-        <div className="overflow-hidden mb-1 pt-2">
-          <motion.h1
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ WebkitTextStroke: "2px #ea580c" }}
-            className="font-[family-name:var(--font-rozha)] text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-[#fed7aa] leading-[0.9] tracking-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
-          >
-            CHATURE
-          </motion.h1>
-        </div>
-        <div className="overflow-hidden mb-6">
-          <motion.h1
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            style={{ WebkitTextStroke: "2px #ea580c" }}
-            className="font-[family-name:var(--font-rozha)] text-5xl sm:text-6xl md:text-7xl lg:text-[6.5rem] text-[#fed7aa] leading-[0.9] tracking-tight drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)]"
-          >
-            BHATURE
-          </motion.h1>
-        </div>
-
-        {/* Subtitle with better contrast */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="text-white text-base md:text-xl max-w-xl mx-auto leading-relaxed mb-12 font-medium drop-shadow-md"
-        >
-          Authentic North Indian flavours crafted with love,{" "}
-          <span className="font-bold">served with a twist of chatur-ness.</span>
-        </motion.p>
-
-        {/* CTA Buttons - High Conversion Colors */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-5"
-        >
-          <a
-            href="#menu"
-            className="group relative px-9 py-4 bg-[#e11d48] text-white rounded-full text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:bg-[#be123c] hover:shadow-xl hover:shadow-[#e11d48]/30 hover:-translate-y-1 inline-flex items-center gap-2"
-          >
-            <UtensilsCrossed size={18} className="group-hover:rotate-12 transition-transform" />
-            Explore Menu
-          </a>
-          <a
-            href="#contact"
-            className="px-9 py-4 bg-white/50 backdrop-blur-sm border-2 border-[#2d2d2d]/10 text-[#2d2d2d] rounded-full text-sm font-bold tracking-wider uppercase transition-all duration-300 hover:border-[#2d2d2d] hover:bg-white hover:shadow-lg hover:-translate-y-1 inline-flex items-center gap-2"
-          >
-            <ShoppingBag size={18} />
-            Order Online
-          </a>
-        </motion.div>
-      </div>
-
-      {/* Scroll indicator with higher contrast */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-20"
-      >
-        <span className="text-[10px] tracking-[0.25em] uppercase text-[#2d2d2d]/60 font-bold">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-[2px] h-10 bg-gradient-to-b from-[#e11d48] to-transparent rounded-full"
-        />
-      </motion.div>
-
-      {/* Bottom wave transition */}
-      <div className="absolute bottom-0 left-0 right-0 text-cream">
-        <svg viewBox="0 0 1200 40" className="w-full" preserveAspectRatio="none">
-          <path
-            d="M0,40 L0,20 Q30,0 60,20 Q90,40 120,20 Q150,0 180,20 Q210,40 240,20 Q270,0 300,20 Q330,40 360,20 Q390,0 420,20 Q450,40 480,20 Q510,0 540,20 Q570,40 600,20 Q630,0 660,20 Q690,40 720,20 Q750,0 780,20 Q810,40 840,20 Q870,0 900,20 Q930,40 960,20 Q990,0 1020,20 Q1050,40 1080,20 Q1110,0 1140,20 Q1170,40 1200,20 L1200,40 Z"
-            fill="#fdf6e3"
-          />
-        </svg>
-      </div>
-    </section>
-  );
-}
 
 /* ─── About ─── */
 function AboutSection() {
@@ -883,7 +747,7 @@ export default function Home() {
     <>
       <Navbar />
       <main>
-        <HeroSection />
+        <HeroScroll />
         <AboutSection />
         <MenuSection />
         <SpecialsSection />
